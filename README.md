@@ -75,3 +75,53 @@ Once you are done with the above steps, it is better to restart Jenkins.
 http://<ec2-instance-public-ip>:8080/restart
 ```
 The docker agent configuration is now successful.
+
+
+### Step 2: Install Java on the Agent Node
+On the agent node we don’t actually need to install the Jenkins however, jenkins only works when java is installed so we just need to install java on the agent node.
+Run the below command to install java on the agent node
+```
+sudo apt install openjdk-11-jdk -y
+```
+
+Now, our setup is ready. We will configure the master-agent architecture now.
+
+### Step 3: Configuring the Master-Agent setup
+Go the Jenkins UI and click on Set up and agent
+
+Add agent
+Add the node name as per your choice
+
+Agent node
+Add the below details
+
+Add the description as per your need
+Number of executors: This indicates that how many parallel jobes this node will execute. As of now I have set it to 2
+Remote root directory: Whenever we create any job in the jenkins it will create workspace in the backend, however we have not installed Jenkins in the agent node so, we need to define any directory for the workspace. As of now I have set it to /opt/build
+Labels: Add some label so that we can select node based on the label for executing the job
+Usage: Set this parameter to Use the node as much as possible so that we can fully utilise the node
+Launch method: Set this parameter to Launch agent by connecting the controller
+Click on Disable WorkDir
+Availability: Set this parameter to Keep the agent online as much as possible. So, it will make sure to keep the node online as much as possible
+Click on save.
+After that you will see the below page.
+
+Run the Run from agent command line: (Unix) on the master node
+After running the command you can see the below page and you can see agent is connected over there.
+
+Now, our master slave setup is ready. We can execute the job on the agent node
+Create a new job and configure as per the below image
+
+Click on the Restrict where the project can be run and under the label expression select the label of the agent node
+Under the build steps select execute shell and add the below command
+uptime
+echo $WORKSPACE
+Click on save and apply.
+Before running the job you can verify the uptime of your agent node.
+
+uptime
+For my agent node it is 33 min.
+Click on build now and execute the job
+
+In the above image you can see the uptime is 33 min and workspace is also /opt/build/workspace/Demo-Job
+That’s it. Our setup is ready. Now, you can create different jobs and execute on the agent node as per your need.
