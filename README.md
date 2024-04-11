@@ -77,6 +77,9 @@ http://<ec2-instance-public-ip>:8080/restart
 The docker agent configuration is now successful.
 
 
+medium blog -> 
+https://medium.com/@dksoni4530/jenkins-master-slave-architecture-setup-f0486fba8039
+
 ### Step 2: Install Java on the Agent Node
 On the agent node we don’t actually need to install the Jenkins however, jenkins only works when java is installed so we just need to install java on the agent node.
 Run the below command to install java on the agent node
